@@ -1,0 +1,107 @@
+{% extends 'base_dashboard.html' %}
+{% load static %} {% block title %} My Tests {% endblock %} {% block content %}
+{% load index %}
+
+
+
+
+
+<div class="content" >
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="input-group">
+        		<div class="input-group-prepend">
+            		<div class="input-group-text">
+            			<i class="tim-icons icon-single-02"></i>
+          			</div>
+        		</div>
+        		<input id="paper_search" type="text" class="form-control" placeholder="Search">
+      		</div>
+		</div>
+	</div>
+	<div class="row" style="margin-top:3px" id="paper_list">
+		{% for attempt in attempts %}
+
+		<div class="col-xl-3 col-lg-4 col-md-6">
+			<div  class="card rounded">
+				<div class="card-header test_card" style="cursor: pointer;" >
+					<h4 class="title">
+						{{test.name}} &nbsp;
+							<span class="badge badge-info" style="font-size:15px;padding:4px 8px; font-weight:500">{{test.subject}}</span>
+						<span class="tim-icons icon-minimal-down float-right test_icon">  </span>
+					</h4>
+
+				</div>
+				<div class="card-body border-top-0 border-bottom-0"
+					style="border: 1.7px solid rgba(225, 78, 202,0.5); background: rgba(108, 117, 125, 0.35); display:none">
+					<table class="table" style="margin-bottom:0">
+
+					    <tbody >
+					        <tr>
+					            <td class="text-center"><strong style="font-size:16px;">Details</strong></td>
+					            <td class="text-left" ><h5 style="font-size:16px;font-weight:300;">
+									<br>
+									Ques: {{test.q_count}} | Duration: {{test.duration}} <br> Max. Marks: {{test.max_marks}}
+								</h5>
+								</td>
+					        </tr>
+							<tr>
+					            <td class="text-center"><strong style="font-size:16px;">Syllabus</strong></td>
+					            <td class="text-left" ><h5 style="font-size:16px;font-weight:300;">
+									{{test.syllabus}}
+								</td>
+					        </tr>
+							<tr>
+					            <td class="text-center"><strong style="font-size:16px;">Description</strong></td>
+					            <td class="text-left" ><h5 style="font-size:16px;font-weight:300;">
+									{{test.description}}
+								</td>
+
+					        </tr>
+					    </tbody>
+					</table>
+				</div>
+
+				<div class="card-footer rounded-bottom border-top-0"
+				style="display:none; margin-top:-2px;border: 1.7px solid rgba(225, 78, 202,0.5); background: rgba(108, 117, 125, 0.35); text-align: center">
+					<button class="btn btn-fill btn-primary "
+					onclick="location.href='/test-info/{{test.id}}'" style="margin-right:15px;"> View </button>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+
+	</div>
+</div>
+<style>
+.fast-animate{
+	 animation-duration: 0.3s;
+}
+
+
+</style>
+
+<script>
+
+
+</script>
+{% endblock %}
+
+{% block js_script %}
+	$(".card > .test_card").click(function(){
+		$(this).children(".title").children(".test_icon").toggleClass(" icon-minimal-up");
+		<!-- $(this).children(".title").children(); -->
+		$(this).siblings(".card-body").slideToggle('slow');
+		$(this).siblings(".card-footer").slideToggle('slow');
+	});
+
+	$("#paper_search").on("keyup", function() {
+    	var value = $(this).val().toLowerCase();
+		console.log("val", $("#paper_list > div"));
+    	$("#paper_list > div").filter( function() {
+    		$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    	});
+	});
+
+{% endblock %}

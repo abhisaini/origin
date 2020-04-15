@@ -1,0 +1,212 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="apple-touch-icon" sizes="76x76" href="{% static 'dashboard/assets/img/apple-icon.png">
+	<link rel="icon" type="image/png" href="{% static 'dashboard/assets/img/favicon.png">
+	<title>
+		{% block title %} {% endblock %}
+	</title>
+	<!--     Fonts and icons     -->
+	<link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
+	<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+	<!-- Nucleo Icons -->
+	<link href="{% static 'dashboard/assets/css/nucleo-icons.css' %}" rel="stylesheet" />
+	<!-- CSS Files -->
+	<link href="{% static 'dashboard/assets/css/black-dashboard.css' %}" rel="stylesheet" />
+	<!-- CSS Just for demo purpose, don't include it in your project -->
+	<link href="{% static 'dashboard/assets/demo/demo.css' %}" rel="stylesheet" />
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css" rel="stylesheet">
+</head>
+
+<body class="">
+	<div class="wrapper">
+		<div class="sidebar" >
+			<!--
+        Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red"
+    -->
+			<div class="sidebar-wrapper">
+				<div class="logo">
+					<a href="javascript:void(0)" class="simple-text logo-mini">
+			            {{user.profile.initial}}
+			        </a>
+					<a href="javascript:void(0)" class="simple-text logo-normal">
+
+						{{user.profile.full_name}}
+		          	</a>
+				</div>
+				<ul class="nav">
+					<!-- <li  id="nav_dashboard">
+						<a href="/dashboard">
+			              <i class="tim-icons icon-chart-pie-36"></i>
+			              <p>Dashboard</p>
+			            </a>
+					</li> -->
+					{% if user.profile.u_type == "S" %}
+					<li id="nav_testlist">
+						<a href="/test-list">
+			              <i class="tim-icons icon-pencil"></i>
+			              <p>Give Test</p>
+			            </a>
+					</li>
+					<li id="nav_testhistory">
+						<a href="/test-history">
+			              <i class="tim-icons icon-trophy"></i>
+			              <p>Test History</p>
+			            </a>
+					</li>
+					{% endif %}
+
+					{% if user.profile.u_type == "T" %}
+					<li id="nav_mycreated">
+						<a href="/my-created">
+			              <i class="tim-icons icon-trophy"></i>
+			              <p>Your Tests</p>
+			            </a>
+					</li>
+					<li id="nav_createtest">
+						<a href="/create-test">
+			              <i class="tim-icons icon-simple-add"></i>
+			              <p>Create Test</p>
+			            </a>
+					</li>
+					{% endif %}
+					<li>
+						<a href="/logout">
+			              <i class="tim-icons icon-trash-simple"></i>
+			              <p>Logout</p>
+			            </a>
+					</li>
+
+
+				</ul>
+			</div>
+		</div>
+		<div class="main-panel">
+			<!-- Navbar -->
+
+			<nav class="navbar navbar-expand-lg navbar-absolute navbar-transparent">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <div class="navbar-toggle d-inline">
+              <button type="button" class="navbar-toggler">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+              </button>
+            </div>
+            <a class="navbar-brand" href="javascript:void(0)">Dashboard</a>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navigation">
+            <ul class="navbar-nav ml-auto">
+              <li class="search-bar input-group"  style="visibility: hidden;">
+                <button class="btn btn-link" id="search-button" data-toggle="modal" data-target="#searchModal"><i class="tim-icons icon-zoom-split" ></i>
+                  <span class="d-lg-none d-md-block">Search</span>
+                </button>
+              </li>
+
+              <li class="dropdown nav-item"  style="display:none;">
+                <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                  <div class="photo">
+                    <img src="../assets/img/anime3.png" alt="Profile Photo">
+                  </div>
+                  <b class="caret d-none d-lg-block d-xl-block"></b>
+                  <p class="d-lg-none">
+                    Log out
+                  </p>
+                </a>
+                =
+              </li>
+              <li class="separator d-lg-none"></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+			<div class="modal modal-search fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModal" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<input type="text" class="form-control" id="inlineFormInputGroup" placeholder="SEARCH">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <i class="tim-icons icon-simple-remove"></i>
+              </button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- End Navbar -->
+			{% block content %}{% endblock %}
+
+			<footer class="footer">
+				<div class="container-fluid">
+
+					<div class="copyright">
+						©
+						<script>
+							document.write(new Date().getFullYear())
+						</script> made with <i class="tim-icons icon-heart-2"></i> by
+						<a href="javascript:void(0)" target="_blank">Abhishek Saini</a> for a better JEE Prep.
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
+
+	</div>
+	<!--   Core JS Files   -->
+	<script src="{% static 'dashboard/assets/js/core/jquery.min.js' %}"></script>
+	<script src="{% static 'dashboard/assets/js/core/popper.min.js' %}"></script>
+	<script src="{% static 'dashboard/assets/js/core/bootstrap.min.js' %}"></script>
+	<script src="{% static 'dashboard/assets/js/plugins/perfect-scrollbar.jquery.min.js' %}"></script>
+	<!--  Google Maps Plugin    -->
+	<!-- Place this tag in your head or just before your close body tag. -->
+	<!-- Chart JS -->
+	<script src="{% static 'dashboard/assets/js/plugins/chartjs.min.js' %}"></script>
+	<!--  Notifications Plugin    -->
+	<script src="{% static 'dashboard/assets/js/plugins/bootstrap-notify.js' %}"></script>
+	<!-- Control Center for Black Dashboard: parallax effects, scripts for the example pages etc -->
+	<script src="{% static 'dashboard/assets/js/black-dashboard.min.js' %}"></script>
+	<!-- Black Dashboard DEMO methods, don't include it in your project! -->
+	<script>
+	function showNotification(from, align, type, icon, message) {
+
+		$.notify({
+			icon: `tim-icons ${icon}`,
+			message: message
+		}, {
+			type: type,
+			timer: 8000,
+			placement: {
+				from: from,
+				align: align
+			}
+		});
+	}
+	</script>
+	<script>
+
+		$(document).ready(function() {
+			// console.log("{{nav_active}}");
+			$("#{{nav_active}}").addClass("active");
+					{% block js_script %}
+
+
+
+
+					{% endblock %}
+					});
+	</script>
+
+
+</body>
+
+</html>
