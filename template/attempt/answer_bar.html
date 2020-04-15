@@ -3,7 +3,7 @@
 {% for i in idx_arr %}
 {% for x in qarr|index:i %}
 {% ifequal x 1 %}
-<div class="card animated fadeInRightBig" id="ques_card_{{x}}">
+<div class="card animated fadeInRightBig fast-animate" id="ques_card_{{x}}">
 {% else %}
 <div class="card animated fadeInRightBig fast-animate" style="display: none" id="ques_card_{{x}}">
 {% endifequal %}
@@ -61,15 +61,25 @@
 		</div>
 		<div class="row" style="margin-top:25px">
 
-			<div class="col-md-6" style=" ">
-				<button class="btn btn-fill btn-info float-right" id="mark_{{x}}" onclick="markQues({{x}})"> Mark </button >
-				<button class="btn btn-fill btn-mute float-right" style="display:none;" id="unmark_{{x}}" onclick="unmarkQues({{x}})" > Unmark </button >
+			<div class="col-md-1" style=" ">
 			</div>
-			<div class="col-md-6" style="">
-				<button class="btn btn-fill btn-warning float-left" onclick="clearQues({{x}})"> Clear </button >
+			<div class="col-md-10" style="">
+				<button class="btn btn-fill btn-info float-left animated zoomIn fast-animate" id="mark_{{x}}" onclick="markQues({{x}})"> Mark </button >
+					<button class="btn btn-fill btn-mute float-left animated zoomIn fast-animate" style="display:none;" id="unmark_{{x}}" onclick="unmarkQues({{x}})" > Unmark </button >
+				<button id="clear_{{x}}" class="btn btn-fill btn-warning float-right animated zoomIn fast-animate"   style="display:none;" onclick="clearQues({{x}})"> Clear </button >
 			</div>
 
 		</div>
+
+		<button onclick="slideQues({{x}},-1)"class="btn btn-round btn-icon btn-success float-right "
+		style="position:absolute; top:47%;left:3%; font-size:25px; opacity:0.8">
+			<i class="fas fa-arrow-circle-left"></i>
+		</button >
+
+		<button onclick="slideQues({{x}},1)"class="btn btn-round btn-icon btn-success float-right "
+		style="position:absolute; top:47%;right:3%; font-size:25px; opacity:0.8">
+			<i class="fas fa-arrow-circle-right"></i>
+		</button >
 
 	</div>
 </div>

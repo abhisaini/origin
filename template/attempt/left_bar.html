@@ -7,47 +7,35 @@
 		<div class="block block-three"></div>
 		<div class="block block-four"></div>
 		<a href="javascript:void(0)">
-		  <img class="avatar" src="../assets/img/emilyz.jpg" alt="...">
-		  <h5 class="title">Mike Andrew</h5>
+		  <img class="avatar" src="https://api.adorable.io/avatars/150/{{user.profile.full_name}}.png" alt="...">
+		  <h5 class="title">{{user.profile.full_name}}</h5>
 		</a>
 		<p class="description">
-		  Ceo/Co-Founder
+		  @{{user}}
 		</p>
 	  </div>
+      <hr style="background:rgba(200,200,200,0.35); height:0.1px; margin-top:10px;margin-bottom:10px;">
 	</p>
-	<div class="card-description">
-	  Do not be scared of the truth because we need to restart the human foundation in truth And I love you like Kanye loves Kanye I love Rick Owens’ bed design but the back is...
-	</div>
+
+	<div class="card-description mt-0 text-center">
+        <h4 > Test Description </h4>
+        {{qpaper.description}}
+    </div>
   </div>
   <div class="card-footer">
-	<div class="button-container">
-	  <button href="javascript:void(0)" class="btn btn-icon btn-round btn-facebook">
-		<i class="fab fa-facebook"></i>
-	  </button>
-	  <button href="javascript:void(0)" class="btn btn-icon btn-round btn-twitter">
-		<i class="fab fa-twitter"></i>
-	  </button>
-	  <button href="javascript:void(0)" class="btn btn-icon btn-round btn-google">
-		<i class="fab fa-google-plus"></i>
-	  </button>
-	  <button href="javascript:void(0)" class="btn btn-icon btn-google" >
-		<i class="fab fa-google-plus"></i>
-	  </button>
-	</div>
+	
   </div>
 </div>
 
 <div class="card ">
 		<div class="card-header">
-			<h4 class="title">Notations</h5>
+			<h4 class="title">Notations & Status</h5>
 		</div>
 
 	<div class="card-body" style="margin-top:-12px;">
 		<div class="row" style=" margin-bottom:-8px">
 			<div class="col-md-3 pr-md-1">
-				<button href="javascript:void(0)" class="btn btn-icon btn-google btn-success" >
-			  		1
-			  	</button>
+				<button type="number" value="0" class="btn btn-icon btn-google btn-success" id="count_ans" >0</button>
 			</div>
 			<div class="col-md-9 pla-md-1" style="padding:12px;">
 				<span class="description" style="font-size:15px;"> Answered </span >
@@ -59,9 +47,7 @@
 		<hr>
 		<div class="row" style="margin-top:-8px; margin-bottom:-8px">
 			<div class="col-md-3 pr-md-1">
-				<button href="javascript:void(0)" class="btn btn-icon btn-google btn-muted" >
-			  		2
-			  	</button>
+				<button type="number" value="{{qpaper.q_count}}" class="btn btn-icon btn-google btn-muted" id="count_notans" >{{qpaper.q_count}}</button>
 			</div>
 			<div class="col-md-9 pla-md-1" style="padding:12px;">
 				<span class="description" style="font-size:15px;"> Not Answered </span >
@@ -71,9 +57,7 @@
 		<hr>
 		<div class="row" style="margin-top:-8px; margin-bottom:-8px">
 			<div class="col-md-3 pr-md-1">
-				<button href="javascript:void(0)" class="btn btn-icon btn-google btn-info" >
-			  		3
-			  	</button>
+				<button type="number" value="0" class="btn btn-icon btn-google btn-info" id="count_mark" >0</button>
 			</div>
 			<div class="col-md-9 pla-md-1" style="padding:12px;">
 				<span class="description" style="font-size:15px;"> Marked for Review</span >
@@ -81,11 +65,9 @@
 		</div>
 
 		<hr>
-		<div class="row" style="margin-top:-8px; margin-bottom:-8px;">
+		<div class="row" style="margin-top:-8px; margin-bottom:-8px;" >
 			<div class="col-md-3 pr-md-1">
-				<button href="javascript:void(0)" class="btn btn-icon btn-google btn-primary" >
-			  		4
-			  	</button>
+				<button type="number" value="0" class="btn btn-icon btn-google btn-primary" id="count_ansmark">0</button>
 			</div>
 			<div class="col-md-9 pla-md-1" style="padding:12px;">
 				<span class="description" style="font-size:15px;"> Answered & To Review </span >

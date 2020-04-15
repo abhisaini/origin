@@ -5,11 +5,11 @@
 		<div class="btn-group btn-group-toggle float-left" data-toggle="buttons">
 			{% for i in idx_arr %}
 			{% ifequal i 1 %}
-			<label class="btn btn-sm btn-primary btn-simple-active" id="{{i}}">
+			<label class="btn btn-sm btn-primary btn-simple" id="{{i}}">
 			{% else %}
 			<label class="btn btn-sm btn-primary btn-simple" id="{{i}}">
 			{% endifequal %}
-				  <input type="radio" onchange="switchSection('#card_qno_opt{{i}}')"  class="d-none d-sm-none qno_options" name="qno_options" id="qno_opt{{i}}">
+				  <input type="radio" onchange="switchSection('#card_qno_opt{{i}}', '{{sec_arr|index:i}}')"  class="d-none d-sm-none qno_options" name="qno_options" id="qno_opt{{i}}">
 	            <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">{{sec_arr|index:i}}</span>
 	            <span class="d-block d-sm-none">
 	              <i class="tim-icons icon-gift-2"></i>
