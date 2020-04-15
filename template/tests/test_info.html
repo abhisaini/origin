@@ -1,0 +1,76 @@
+{% extends 'base_dashboard.html' %}
+{% load index %}
+{% load static %} {% block title %} My Tests {% endblock %} {% block content %}
+
+
+
+
+
+<div class="content" >
+
+	<div class="row">
+
+		<div class="col-xl-2 col-md-1">
+		</div>
+		<div class="col-xl-8 col-md-10">
+			<div  class="card ">
+				<div class="card-header text-center">
+					<h4 class="title"> Instructions </h4>
+					<hr>
+					<h3 > {{qpaper.name}} </h3>
+					<h4 > {{qpaper.syllabus}} </h4>
+
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col-xl-2 col-md-1"> </div>
+						<div class="col-xl-8 col-md-10">
+							<h4 >
+								<span class="float-left">Marks: {{qpaper.max_marks}}</span>
+								<span class="float-right">Time: {{qpaper.duration}}</span>
+							</h4>
+							<br>
+							<div class="card-description" style="font-size:16px ;opacity:0.9; line-height:180%">
+								<ol>
+									<li> This paper contains {{qpaper.q_count}} questions. </li>
+									<li> Type and marking scheme of each question will be mentioned with the question only. </li>
+									<li> Your question paper will be provided in form of pdf document, which stays in middle of the test environment. </li>
+									<li> The left side of the test environment will show basic details and notations. </li>
+									<li> The right side of the test environment will contain two sections -
+										<ol>
+											<li> First Section contains different buttons for each question where you can switch questions </li>
+											<li> Second Section contains the details for selected question as well as functionality to fill answer </li>
+										</ol>
+									</li>
+									<li> Timer will be visible on top-right corner of the page.</li>
+									<li> Please attempt the paper carefully and, <b> All the best </b></li>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card-footer text-center">
+					<hr>
+					<button class="btn btn-fill btn-primary " onclick="location.href='/attempt-test/{{qpaper.id}}'"> Start Test </button>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+<style>
+.fast-animate{
+	 animation-duration: 0.3s;
+}
+
+
+</style>
+
+<script>
+
+
+</script>
+{% endblock %}
+
+{% block js_script %}
+
+{% endblock %}

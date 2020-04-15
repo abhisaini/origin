@@ -1,0 +1,84 @@
+<div class="card card-user">
+  <div class="card-body">
+	<p class="card-text">
+	  <div class="author">
+		<div class="block block-one"></div>
+		<div class="block block-two"></div>
+		<div class="block block-three"></div>
+		<div class="block block-four"></div>
+		<a href="javascript:void(0)">
+		  <img class="avatar" src="https://api.adorable.io/avatars/150/{{user.profile.full_name}}.png" alt="...">
+		  <h5 class="title">{{user.profile.full_name}}</h5>
+		</a>
+		<p class="description">
+		  @{{user}}
+		</p>
+	  </div>
+      <hr style="background:rgba(200,200,200,0.35); height:0.1px; margin-top:10px;margin-bottom:10px;">
+	</p>
+
+	<div class="card-description mt-0 text-center">
+        <h4 > Test Description </h4>
+        {{qpaper.description}}
+    </div>
+  </div>
+  <div class="card-footer">
+	
+  </div>
+</div>
+
+<div class="card ">
+		<div class="card-header">
+			<h4 class="title">Notations & Status</h5>
+		</div>
+
+	<div class="card-body" style="margin-top:-12px;">
+		<div class="row" style=" margin-bottom:-8px">
+			<div class="col-md-3 pr-md-1">
+				<button type="number" value="0" class="btn btn-icon btn-google btn-success" id="count_ans" >0</button>
+			</div>
+			<div class="col-md-9 pla-md-1" style="padding:12px;">
+				<span class="description" style="font-size:15px;"> Answered </span >
+			</div>
+		</div>
+
+
+
+		<hr>
+		<div class="row" style="margin-top:-8px; margin-bottom:-8px">
+			<div class="col-md-3 pr-md-1">
+				<button type="number" value="{{qpaper.q_count}}" class="btn btn-icon btn-google btn-muted" id="count_notans" >{{qpaper.q_count}}</button>
+			</div>
+			<div class="col-md-9 pla-md-1" style="padding:12px;">
+				<span class="description" style="font-size:15px;"> Not Answered </span >
+			</div>
+		</div>
+
+		<hr>
+		<div class="row" style="margin-top:-8px; margin-bottom:-8px">
+			<div class="col-md-3 pr-md-1">
+				<button type="number" value="0" class="btn btn-icon btn-google btn-info" id="count_mark" >0</button>
+			</div>
+			<div class="col-md-9 pla-md-1" style="padding:12px;">
+				<span class="description" style="font-size:15px;"> Marked for Review</span >
+			</div>
+		</div>
+
+		<hr>
+		<div class="row" style="margin-top:-8px; margin-bottom:-8px;" >
+			<div class="col-md-3 pr-md-1">
+				<button type="number" value="0" class="btn btn-icon btn-google btn-primary" id="count_ansmark">0</button>
+			</div>
+			<div class="col-md-9 pla-md-1" style="padding:12px;">
+				<span class="description" style="font-size:15px;"> Answered & To Review </span >
+			</div>
+		</div>
+	</div>
+	<div class="card-footer">
+	</div>
+</div>
+
+
+<style>
+
+</style>
