@@ -1,0 +1,174 @@
+{% extends 'attempt/attempt_test.html' %}
+{% load static %} {% block title %} Create Test {% endblock %} {% block content %}
+<div class="content" style="padding: 78px 20px 20px 20px;">
+	<div class="row">
+		<div class="col-md-2">
+			{% include 'attempt/left_bar.html' %}
+
+		</div>
+		<div class="col-md-7" id="pdf_viewer" style="min-height: calc(100vh - 100px)">
+		</div>
+		<div class="col-md-3">
+			{% include 'attempt/right_bar.html' %}
+		</div>
+
+	</div>
+</div>
+<style>
+.fast-animate{
+	 animation-duration: 0.3s;
+}
+input[type="radio"] {
+	display: none;
+}
+
+input[type="radio"]:checked + label {
+	border: solid 1.5px #e14eca;
+}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfobject/2.1.1/pdfobject.min.js"> </script>
+<script>
+PDFObject.embed("{{qpaper.qpaper_file.url}}", "#pdf_viewer");
+</script>
+{% endblock %}
+
+
+
+{% block js_script %}
+<script>
+$(document).ready(function() {
+
+
+});
+</script>
+
+{% endblock %}
+
+{% block script %}
+<script>
+	let q_type = {{q_type|safe}};
+	// console.log({{q_type|safe}});
+	let ans_status_array = [0]; // 0 for not answered
+	let mark_status_array = [0]; // 0 for not marked
+	for(var i = 0; i < {{qpaper.q_count}}; i++){
+		ans_status_array.push(0);
+		mark_status_array.push(0);
+	}
+	let qpart_active = $("#card_qno_opt1");
+	function switchSection(new_section){
+		console.log("this", this);
+		qpart_active.hide(new_section);
+		let qpart_new = $(new_section);
+		qpart_new.show('slow');
+		qpart_active = qpart_new;
+		console.log(`#card_${$(this).attr('id')}`);
+	}
+
+	let ques_active_obj = $("#ques_card_1");
+	function switchQues(new_ques){
+		ques_active_obj.hide();
+		let ques_new_obj = $(new_ques);
+		ques_new_obj.show();
+		ques_active_obj = ques_new_obj;
+
+	}
+
+	function markQues(ques_no){
+		let q_btn = $(`#q_btn${ques_no}`);
+		if(ans_status_array[ques_no] == 0){
+			q_btn.addClass("btn-info");
+		}
+		if(ans_status_array[ques_no] == 1){
+			q_btn.removeClass("btn-success");
+			q_btn.addClass("btn-primary");
+		}
+		$(`#mark_${ques_no}`).hide();
+		$(`#unmark_${ques_no}`).show();
+		mark_status_array[ques_no] = 1;
+	}
+	function valueChanged(ques_no){
+		console.log(ques_no);
+		let q_btn = $(`#q_btn${ques_no}`);
+		if(mark_status_array[ques_no] == 0){
+			q_btn.addClass("btn-success");
+		}
+		if(mark_status_array[ques_no] == 1){
+			q_btn.removeClass("btn-info");
+			q_btn.addClass("btn-primary");
+		}
+		ans_status_array[ques_no] = 1;
+
+	}
+
+	function clearQues(ques_no){
+		let q_input = $(`input[name ="ques_${ques_no}"]`);
+		if(q_type[ques_no] == "MCQ")
+		q_input.prop('checked', false);
+		else if(q_type[ques_no] == "int")
+		q_input.removeAttr('value');
+
+		let q_btn = $(`#q_btn${ques_no}`);
+		if(mark_status_array[ques_no] == 0){
+			q_btn.removeClass ("btn-success");
+		}
+		if(mark_status_array[ques_no] == 1){
+			q_btn.addClass("btn-info");
+			q_btn.removeClass ("btn-primary");
+		}
+		ans_status_array[ques_no] = 0;
+	}
+	function unmarkQues(ques_no){
+
+		let q_btn = $(`#q_btn${ques_no}`);
+		if(ans_status_array[ques_no] == 0){
+			q_btn.removeClass("btn-info");
+		}
+		if(ans_status_array[ques_no] == 1){
+			q_btn.addClass("btn-success");
+			q_btn.removeClass("btn-primary");
+		}
+		$(`#mark_${ques_no}`).show();
+		$(`#unmark_${ques_no}`).hide();
+		mark_status_array[ques_no] = 0;
+	}
+
+	function getOption(ques_no){
+		// console.log(typeof(ques_no));
+		if(q_type[ques_no] == "MCQ"){
+			if($(`input[name="ques_${ques_no}"][value="A"]`).prop("checked")){
+				return "A";
+			}
+			if($(`input[name="ques_${ques_no}"][value="B"]`).prop("checked")){
+				return "B";
+			}
+			if($(`input[name="ques_${ques_no}"][value="C"]`).prop("checked")){
+				return "C";
+			}
+			if($(`input[name="ques_${ques_no}"][value="D"]`).prop("checked")){
+				return "D";
+			}
+			return "_"
+		}
+		if(q_type[ques_no] == "int"){
+			if($(`input[name="ques_${ques_no}"`).val()){
+				return $(`input[name="ques_${ques_no}"`).val();
+			}
+			else{
+				return "_";
+			}
+		}
+
+	}
+	function submitPaper(){
+		let answers = ["X"];
+		for(var i = 1; i <= {{qpaper.q_count}}; i++){
+			answers.push(getOption(i));
+		}
+		$("#exam_response").val(JSON.stringify(answers));
+		$("#exam_key_form").submit();
+		console.log(answers);
+	}
+</script>
+
+
+{% endblock %}

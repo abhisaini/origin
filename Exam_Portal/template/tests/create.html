@@ -1,0 +1,120 @@
+{% extends 'base_dashboard.html' %} {% load static %} {% block title %} Create Test {% endblock %} {% block content %}
+<div class="content" id="main-content">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-header">
+					<h5 class="title">Create Test</h5>
+				</div>
+				<div class="card-body">
+					<form action="" method="post" enctype="multipart/form-data" id="paper-form">
+						{% csrf_token %}
+						<div class="row">
+							<div class="col-md-9 pr-md-1">
+								<div class="form-group">
+									<label>Exam Name</label>
+									<input required type="text" class="form-control" placeholder="Exam Name" name="name">
+								</div>
+							</div>
+							<div class="col-md-3 pl-md-1">
+								<div class="form-group">
+									<label>Question Count</label>
+									<input required type="number" class="form-control" placeholder="Q. Count" value="30" name="q_count">
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6 pr-md-1">
+								<div class="form-group">
+									<label>Subject</label>
+									<select required name="subject" class="form-control border-input required">
+								<option value="PCM">PCM</option>
+								<option value="P">Physics</option>
+								<option value="C">Chemistry</option>
+								<option value="M">Maths</option>
+							</select>
+								</div>
+							</div>
+
+							<div class="col-md-3 px-md-1">
+								<div class="form-group">
+									<label>Duration (in mins)</label>
+									<input required type="number" class="form-control" placeholder="Duration" value="60" name="duration">
+								</div>
+							</div>
+							<div class="col-md-3 pl-md-1">
+								<div class="form-group">
+									<label>Maximum Marks</label>
+									<input required type="number" class="form-control" placeholder="Max. Marks" value="120" name="max_marks">
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6 pr-md-1">
+								<div class="form-group">
+									<label>Syllabus</label>
+									<textarea required rows="6" class="form-control" placeholder="Syllabus" name="syllabus"></textarea>
+								</div>
+							</div>
+							<div class="col-md-6 pl-md-1">
+								<div class="form-group">
+									<label>Description</label>
+									<textarea required rows="6" class="form-control" placeholder="Here can be your description" name="description">
+									Marking :
+									Duration:
+								</textarea>
+								</div>
+							</div>
+						</div>
+
+						<div class="row" style="margin-bottom:30px;">
+
+							<div class="col-md-12">
+								<div class="form-group">
+									<input required type="file" class="custom-file-input" id="qpaper_file" name="qpaper_file">
+						    		<label class="custom-file-label" for="qpaper_file">Upload test paper <i>(in pdf format)</i></label>
+								</div>
+							</div>
+
+						</div>
+						<div class="row" style="margin-bottom:30px;margin-top:43px;">
+
+							<div class="col-md-12">
+								<div class="form-group">
+									<input  type="file" class="custom-file-input" id="soln_file" name="soln_file">
+						    		<label class="custom-file-label" for="soln_file">Upload solution <i>(in pdf, optional)</i></label>
+								</div>
+							</div>
+
+						</div>
+
+
+
+					</form>
+				</div>
+				<div class="card-footer">
+					<button form="paper-form" type="submit" class="btn btn-fill btn-success" style="float: right;">Proceed</button>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+
+{% endblock %}
+
+
+
+{% block js_script %}
+
+
+	$(".custom-file-input").on("change", function() {
+	  var fileName = $(this).val().split("\\").pop();
+	  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+
+	  console.log("aaaaa");
+	});
+
+
+{% endblock %}
