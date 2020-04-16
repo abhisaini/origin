@@ -218,6 +218,7 @@ def attempt_analyze(request, attempt_id):
     params["qarr"] = range(1, attempt.paper.q_count + 1)
     params['marking_scheme'] = [int(i) for i in attempt.paper.marking_scheme]
     params['negative_marking_scheme'] = [-1*int(i) for i in attempt.paper.negative_marking_scheme]
+    print("PP:", attempt.paper.soln_file)
     return render(request, 'attempt/analyze.html', params)
 
 @login_required(login_url = '/login')

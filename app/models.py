@@ -37,7 +37,7 @@ class Paper(models.Model):
     qpaper_file = models.FileField(upload_to='papers/')
     soln_file = models.FileField(upload_to='papers/', blank = True)
     q_count = models.IntegerField(null = True)
-    q_type = models.CharField(max_length = 200, default = "")
+    q_type = models.CharField(max_length = 2000, default = "")
     answer_key = models.CharField(max_length = 2000, default = "")
     marking_scheme = models.CharField(max_length = 200, default = "")
     negative_marking_scheme = models.CharField(max_length = 200, default = "")

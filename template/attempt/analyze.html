@@ -9,7 +9,6 @@
 <div class="content" >
 
 
-
 	<div class="row">
 
 		<div class="col-md-9" >
@@ -33,7 +32,7 @@
 			<div id="pdf_viewer" style="height: calc(100vh - 100px);">
 			</div>
 		</div>
-		{% if soln_file %}
+		{% if qpaper.soln_file %}
 		<div class="col-md-9" id="pdf_viewer1" style="display:none;height: calc(100vh - 100px);">
 		</div>
 		{% endif %}
@@ -106,7 +105,7 @@
 
 <script>
 	PDFObject.embed("{{qpaper.qpaper_file.url}}", "#pdf_viewer");
-	{% if soln_file %}
+	{% if qpaper.soln_file %}
 	PDFObject.embed("{{qpaper.soln_file.url}}", "#pdf_viewer1");
 	{% endif %}
 
