@@ -151,11 +151,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # # # # # # # # # #
 # GOOGLE_APPLICATION_CREDENTIALS = "/home/abhi/Desktop/Random/Exam-System/origin/app/credentials.json"
 from google.oauth2 import service_account
+import json
 
-GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-    os.path.join(BASE_DIR, os.environ.get('GC_CRED', ''))
-)
+creds = json.loads(os.environ.get('GC_KEY'))
 
+GS_CREDENTIALS = service_account.Credentials.from_service_account_info(creds)
 
 
 DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
