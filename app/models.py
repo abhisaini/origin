@@ -4,8 +4,13 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.translation import gettext as _
-
 from django.utils.timezone import now
+
+# from oauth2client.client import GoogleCredentials
+# from google.cloud import storage
+# client = storage.Client()
+# bucket = client.get_bucket('quicky-14a17.appspot.com')
+
 SPLITTER = "|"
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

@@ -75,6 +75,8 @@ WSGI_APPLICATION = 'Exam_Portal.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -85,6 +87,12 @@ DATABASES = {
         'POST': '5432'
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
 
 # Password validation
@@ -136,3 +144,30 @@ MEDIA_URL = '/media/'
 
 # LOGIN_REDIRECT_URL = ''
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+
+
+
+# # # # # # # # # #
+# GOOGLE_APPLICATION_CREDENTIALS = "/home/abhi/Desktop/Random/Exam-System/origin/app/credentials.json"
+from google.oauth2 import service_account
+
+GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+    os.environ.get('GC_CRED', '')
+)
+
+
+
+DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+GS_BUCKET_NAME = 'quicky-14a17.appspot.com'
+# STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+
+
+
+
+
+
+
+
+
+# # # #
