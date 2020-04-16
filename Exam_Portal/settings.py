@@ -153,7 +153,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 from google.oauth2 import service_account
 
 GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-    os.environ.get('GC_CRED', '')
+    os.path.join(BASE_DIR, os.environ.get('GC_CRED', ''))
 )
 
 
