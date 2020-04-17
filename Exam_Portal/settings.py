@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ["localhost", "origin-jee.herokuapp.com"]
 
 INSTALLED_APPS = [
     'app',
+    'gdstorage',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -163,9 +164,9 @@ GS_BUCKET_NAME = 'quicky-14a17.appspot.com'
 # STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 
 
+GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = os.path.join(BASE_DIR, 'app/credentials.json')
 
-
-
+X_FRAME_OPTIONS = 'ALLOW-FROM https://drive.google.com/'
 
 
 

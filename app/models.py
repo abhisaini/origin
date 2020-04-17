@@ -11,6 +11,11 @@ from django.utils.timezone import now
 # client = storage.Client()
 # bucket = client.get_bucket('quicky-14a17.appspot.com')
 
+
+from gdstorage.storage import GoogleDriveStorage
+gd_storage = GoogleDriveStorage()
+
+
 SPLITTER = "|"
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -34,8 +39,8 @@ class Paper(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     name = models.CharField(max_length = 200, default = "")
-    qpaper_file = models.FileField(upload_to='papers/')
-    soln_file = models.FileField(upload_to='papers/', blank = True)
+    qpaper_file = models.FileField(upload_to='papers/', storage = gd_storage)
+    soln_file = models.FileField(upload_to='papers/', blank = True, storage = gd_storage)
     q_count = models.IntegerField(null = True)
     q_type = models.CharField(max_length = 2000, default = "")
     answer_key = models.CharField(max_length = 2000, default = "")

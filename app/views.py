@@ -19,6 +19,8 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 import json
 
 from app import decos
+from django.views.decorators.clickjacking import xframe_options_exempt
+
 
 Q_TYPE = {
     "M": "MCQ",
@@ -68,7 +70,7 @@ def create_test(request):
             m = paper_form.save(commit=False)
             m.author = user
             m.qpaper_file = request.FILES['qpaper_file']
-            if request.FILES['soln_file']:
+            if request.FILES.get('soln_file', ''):
                 m.soln_file = request.FILES['soln_file']
             m.save()
             print("M:", m.qpaper_file)
@@ -144,6 +146,7 @@ def add_answerkey(request, test_id):
         return render(request, 'tests/add_answerkey.html', params)
 
 @login_required(login_url = '/login')
+@xframe_options_exempt
 @csrf_exempt
 def attempt_test(request, test_id):
     user = User.objects.get(username = request.user.username)
@@ -198,6 +201,7 @@ def attempt_test(request, test_id):
         params['idx_arr'] = idx_arr
         params['qarr'] = qarr
         params['sec_arr'] = sec_arr
+        params['qpaper_file_url'] = qpaper.qpaper_file.url.split("view")[0]+"preview"
         params['q_type'] = qpaper.q_type.split("|")
         params['marking_scheme'] = [int(i) for i in qpaper.marking_scheme]
         params['negative_marking_scheme'] = [-1*int(i) for i in qpaper.negative_marking_scheme]
@@ -207,18 +211,24 @@ def attempt_test(request, test_id):
 @csrf_exempt
 def attempt_analyze(request, attempt_id):
     attempt = Attempt.objects.get(id =attempt_id)
+    qpaper = attempt.paper
     params = {}
+    if qpaper.soln_file:
+        params['soln_file_url'] = qpaper.soln_file.url.split("view")[0]+"preview"
+
+    params['qpaper_file_url'] = qpaper.qpaper_file.url.split("view")[0]+"preview"
+
     params["nav_active"] = "nav_testhistory"
     params["response"] = attempt.response.split("|")
     params["user"] = User.objects.get(username =request.user.username)
-    params["qpaper"] = attempt.paper
+    params["qpaper"] = qpaper
     params["q_result"] = attempt.q_result
     params["marks"] = attempt.marks
-    params["answer_key"] = attempt.paper.answer_key.split("|")
-    params["qarr"] = range(1, attempt.paper.q_count + 1)
-    params['marking_scheme'] = [int(i) for i in attempt.paper.marking_scheme]
-    params['negative_marking_scheme'] = [-1*int(i) for i in attempt.paper.negative_marking_scheme]
-    print("PP:", attempt.paper.soln_file)
+    params["answer_key"] = qpaper.answer_key.split("|")
+    params["qarr"] = range(1, qpaper.q_count + 1)
+    params['marking_scheme'] = [int(i) for i in qpaper.marking_scheme]
+    params['negative_marking_scheme'] = [-1*int(i) for i in qpaper.negative_marking_scheme]
+    print("PP:", qpaper.soln_file)
     return render(request, 'attempt/analyze.html', params)
 
 @login_required(login_url = '/login')

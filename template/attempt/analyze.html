@@ -104,9 +104,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfobject/2.1.1/pdfobject.min.js"> </script>
 
 <script>
-	PDFObject.embed("{{qpaper.qpaper_file.url}}", "#pdf_viewer");
+	PDFObject.embed("{{qpaper_file_url}}", "#pdf_viewer");
 	{% if qpaper.soln_file %}
-	PDFObject.embed("{{qpaper.soln_file.url}}", "#pdf_viewer1");
+	PDFObject.embed("{{soln_file_url}}", "#pdf_viewer1");
 	{% endif %}
 
 
