@@ -145,6 +145,8 @@ def add_answerkey(request, test_id):
         params['q_type'] = qpaper.q_type.split("|")
         return render(request, 'tests/add_answerkey.html', params)
 
+
+
 @login_required(login_url = '/login')
 @xframe_options_exempt
 @csrf_exempt
@@ -287,3 +289,105 @@ def test_history(request):
 # def teacher_dashoard(request):
 #     created_tests = Paper.objects.filter(user = user)
 # def form_initiated(request):
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"""
+
+def attempt_test(request, test_id):
+    user = User.objects.get(username = request.user.username)
+    qpaper = Paper.objects.get(id=test_id)
+    if request.method == 'POST':
+        exam_response = json.loads(request.POST["exam_response"])
+        answer_key = qpaper.answer_key.split("|")
+        marking_scheme = qpaper.marking_scheme
+        negative_marking_scheme = qpaper.negative_marking_scheme
+        marks = 0
+        q_result = "0"
+        for i in range(1, qpaper.q_count + 1):
+            print("XIXIXI", i, len(answer_key))
+            if exam_response[i] == "_":
+                q_result += "_"
+            elif exam_response[i] == answer_key[i]:
+                q_result += "1"
+                marks += int(marking_scheme[i])
+            else:
+                print(exam_response[i], answer_key[i])
+                marks -= int(negative_marking_scheme[i])
+                q_result += "0"
+        attempt_new = Attempt.get(user = request.user, paper = qpaper)
+        attempt_new.response = "|".join(exam_response)
+        attempt_new.q_result = q_result
+        attempt_new.marks = marks
+        attempt_new.save()
+        return redirect('/analyze-test/{0}'.format(attempt_new.id))
+
+
+
+    else:
+        qc = qpaper.q_count
+        if qc <= 20:
+            qarr = [0, range(1,qc+1)]
+            idx_arr = [1]
+            sec_arr = [0, '{0} - {1}'.format(1, qc+1)]
+        elif qc <= 40:
+            qarr = [0, range(1,int(qc/2) + 1), range(int(qc/2) + 1, qc+1)]
+            idx_arr = [1,2]
+            sec_arr = [0, '{0} - {1}'.format(1, int(qc/2)),
+            '{0} - {1}'.format(int(qc/2) +1, qc)]
+        else:
+            qarr = [0, range(1,int(qc/3) + 1), range(int(qc/3) + 1, 2*int(qc/3) + 1), range(2*int(qc/3) + 1, qc+1)]
+            idx_arr = [1, 2, 3]
+            sec_arr = [0, '{0} - {1}'.format(1, int(qc/3)),
+            '{0} - {1}'.format(int(qc/3) +1, 2*int(qc/3)),
+            '{0} - {1}'.format(2*int(qc/3) +1, qc)]
+
+        if Attempt.objects.filter(user = user, paper = qpaper):
+            attempt_m = Attempt.objects.get(user = user, paper = qpaper)
+            t_now = datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
+
+            time_delta = t_now - attempt_m.created_at
+
+            time_left = qpaper.duration - int(time_delta.seconds/60)
+            if(time_left < 0):
+                time_left = 1
+            attempt_m.time_left =  time_left
+            attempt_m.save()
+        else:
+            attempt_m = Attempt.objects.create(user = user,
+                paper = qpaper,
+                time_left = qpaper.duration
+                )
+
+
+        params = {'user': user, 'qpaper': qpaper}
+        params['idx_arr'] = idx_arr
+        params['attempt_m'] = attempt_m
+        params['qarr'] = qarr
+        params['sec_arr'] = sec_arr
+        params['qpaper_file_url'] = qpaper.qpaper_file.url.split("view")[0]+"preview"
+        params['q_type'] = qpaper.q_type.split("|")
+        params['marking_scheme'] = [int(i) for i in qpaper.marking_scheme]
+        params['negative_marking_scheme'] = [-1*int(i) for i in qpaper.negative_marking_scheme]
+        return render(request, 'attempt/attempt_content.html', params)
+
+"""

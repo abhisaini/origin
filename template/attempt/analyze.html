@@ -29,13 +29,24 @@
 			   </span>
 			 </label>
 			</div>
-			<div id="pdf_viewer" style="height: calc(100vh - 100px);">
-			</div>
+			<!-- <div id="pdf_viewer" style="height: calc(100vh - 100px);">
+			</div> -->
 		</div>
+		<div id="pdf_viewer" class="col-md-9"  style="min-height: calc(100vh - 100px)">
+			<iframe src="{{qpaper_file_url}}" height="100%" width="100%">
+				<p>Your browser does not support iframes.</p>
+			</iframe>
+		</div>
+
 		{% if qpaper.soln_file %}
-		<div class="col-md-9" id="pdf_viewer1" style="display:none;height: calc(100vh - 100px);">
+		<div id="pdf_viewer1"  class="col-md-9"  style="min-height: calc(100vh - 100px)">
+			<iframe src="{{soln_file_url}}" height="100%" width="100%">
+				<p>Your browser does not support iframes.</p>
+			</iframe>
 		</div>
 		{% endif %}
+
+
 		<div class="col-md-3" >
 			<div class="card" >
 				<div class="card-header">
@@ -104,13 +115,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfobject/2.1.1/pdfobject.min.js"> </script>
 
 <script>
-	PDFObject.embed("{{qpaper_file_url}}", "#pdf_viewer");
-	{% if qpaper.soln_file %}
-	PDFObject.embed("{{soln_file_url}}", "#pdf_viewer1");
-	{% endif %}
-
-
-
 
 
 	// let qpart_active = $("#card_qno_opt1");

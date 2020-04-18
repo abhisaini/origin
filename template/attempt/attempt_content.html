@@ -8,10 +8,10 @@
 			{% include 'attempt/left_bar.html' %}
 
 		</div>
-		<div id="pdf_viewer"class="col-md-7"  style="min-height: calc(100vh - 100px)">
-			<!-- <iframe >
-			  <p>Your browser does not support iframes.</p>
-			</iframe> -->
+		<div class="col-md-7"  style="min-height: calc(100vh - 100px)">
+			<iframe src="{{qpaper_file_url}}" height="100%" width="100%">
+				<p>Your browser does not support iframes.</p>
+			</iframe>
 		</div>
 		<div class="col-md-3">
 			{% include 'attempt/right_bar.html' %}
@@ -33,7 +33,7 @@ input[type="radio"]:checked + label {
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfobject/2.1.1/pdfobject.min.js"> </script>
 <script>
-PDFObject.embed("{{qpaper_file_url}}", "#pdf_viewer");
+// PDFObject.embed("{{qpaper_file_url}}", "#pdf_viewer");
 </script>
 {% endblock %}
 
