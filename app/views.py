@@ -179,12 +179,10 @@ def attempt_test(request, test_id):
         attempt_new.save()
         return redirect('/analyze-test/{0}'.format(attempt_new.id))
 
-
-
     else:
         qc = qpaper.q_count
         if qc <= 20:
-            qarr = [0, range(1,qc)]
+            qarr = [0, range(1,qc+1)]
             idx_arr = [1]
             sec_arr = [0, '{0} - {1}'.format(1, qc)]
         elif qc <= 40:
