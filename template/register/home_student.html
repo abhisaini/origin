@@ -1,0 +1,42 @@
+{% extends 'base_dashboard.html' %} {% load static %} {% block title %} Teacher {% endblock %} {% block content %}
+
+<div class="content">
+	<div class="row">
+		<div class="col-12">
+			<div class="card card-chart">
+				<div class="card-header ">
+					<div class="row">
+						<div class="col-sm-6 text-left">
+							<h5 class="card-category">Performance</h5>
+							<h2 class="card-title">Test Percentage</h2>
+						</div>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="chart-area">
+						<canvas id="chart_performance">
+
+						</canvas>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+
+	// function get_labels(){
+	// 	return {{labels}};
+	// }
+	// console.log("SS: ", {{labels}});
+	// function get_data(){
+	//
+	// 	return {{scores}};
+	// }
+</script>
+{% endblock %}
+
+{% block js_script %}
+	charts.scoreChart({{scores|safe}}, {{labels|safe}});
+{% endblock %}
