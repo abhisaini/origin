@@ -39,12 +39,14 @@
 		          	</a>
 				</div>
 				<ul class="nav">
-					<!-- <li  id="nav_dashboard">
-						<a href="/dashboard">
+					{% if user.profile.u_type == "S" %}
+					<li  id="nav_dashboard">
+						<a href="">
 			              <i class="tim-icons icon-chart-pie-36"></i>
 			              <p>Dashboard</p>
 			            </a>
-					</li> -->
+					</li>
+					{% endif %}
 					{% if user.profile.u_type == "S" %}
 					<li id="nav_testlist">
 						<a href="/test-list">
@@ -176,6 +178,10 @@
 	<!-- Control Center for Black Dashboard: parallax effects, scripts for the example pages etc -->
 	<script src="{% static 'dashboard/assets/js/black-dashboard.min.js' %}"></script>
 	<!-- Black Dashboard DEMO methods, don't include it in your project! -->
+
+	<script src="{% static 'dashboard/assets/js/my_charts.js' %}"> </script>
+
+
 	<script>
 	function showNotification(from, align, type, icon, message) {
 

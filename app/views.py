@@ -55,9 +55,17 @@ def homepage(request):
     if request.user.profile.u_type == "T":
         return redirect("/my-created")
     if request.user.profile.u_type == "S":
-        return redirect("/test-list")
-    user = User.objects.get(username = request.user.username)
-    return render(request, 'register/home.html', {'user': user})
+        # return redirect("/test-list")
+        user = request.user
+        params = {'user': user}
+        attempts = Attempt.objects.filter(user = user).order_by("created_at")
+        params = {}
+        params["nav_active"] = "nav_dashboard"
+        params["attempts"] = attempts
+        params["labels"] = [x.paper.name for x in attempts]
+        print("LABELS:", params["labels"])
+        params["scores"] = [int(100 * x.marks/ x.paper.max_marks) for x in attempts]
+        return render(request, 'register/home_student.html', params)
 
 @login_required(login_url = '/login')
 def create_test(request):

@@ -71,7 +71,7 @@ class Attempt(models.Model):
     paper = models.ForeignKey(Paper, on_delete=models.CASCADE)
     response = models.CharField(max_length = 2000, default = "")
     q_result = models.CharField(max_length = 200, default = "")
-    marks = models.IntegerField(null = True)
+    marks = models.IntegerField( default = 0)
     created_at = models.DateTimeField(default=now)
 
 
