@@ -29,7 +29,7 @@
 
 		<div class="main-panel">
 
-			<nav class="navbar navbar-expand-lg navbar-absolute navbar-transparent">
+			<nav class="navbar navbar-expand-lg navbar-fixed navbar-dark" style="position:fixed; margin-bottom:5px">
 	          <div class="container-fluid">
 	            <div class="navbar-wrapper">
 	              <div class="navbar-toggle d-inline">
@@ -54,17 +54,25 @@
 						  <a class="navbar-brand badge badge-danger" href="/test-info/{{qpaper.id}}" style="margin-right:200px; padding:8px 12px;">
 							  Quit
 						  </a>
-						  <button style="margin-left:200px; visibility: hidden;"> </button>
+						  <button style="margin-left:50px; visibility: hidden;"> </button>
+  	                </li>
+					<li class="search-bar input-group" style="">
+						  <a class="navbar-brand badge badge-primary" href="/test-info/{{qpaper.id}}" style="margin-right:200px; padding:8px 12px;">
+							  <span id="timer_h"> 00 </span> :
+							  <span id="timer_m"> 00 </span> :
+							  <span id="timer_s"> 00 </span>
+						  </a>
+						  <button style="margin-left:100px; visibility: hidden;"> </button>
   	                </li>
 
-	                <li class="search-bar input-group"  >
+	                <!-- <li class="search-bar input-group"  >
 
 						<button class="btn  btn-icon btn-warning " id="timer_h"> 00 </button >
 							<h3 style="margin-left:5px;margin-right:5px;"> : </h3>
 						<button class="btn  btn-icon btn-warning " id="timer_m"> 00 </button >
 							<h3 style="margin-left:5px;margin-right:5px;"> : </h3>
 						<button class="btn  btn-icon btn-warning " id="timer_s"> 00 </button >
-	                </li>
+	                </li> -->
 
 	                <li class="separator d-lg-none"></li>
 	              </ul>
@@ -72,6 +80,30 @@
 	          </div>
 	        </nav>
 
+			<!-- <nav class="navbar navbar-expand-lg navbar-light navbar-fixed bg-light">
+			  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+			    <span class="navbar-toggler-icon"></span>
+			  </button>
+			  <a class="navbar-brand" href="#">Navbar</a>
+
+			  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+			    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+			      <li class="nav-item active">
+			        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+			      </li>
+			      <li class="nav-item">
+			        <a class="nav-link" href="#">Link</a>
+			      </li>
+			      <li class="nav-item">
+			        <a class="nav-link disabled" href="#">Disabled</a>
+			      </li>
+			    </ul>
+			    <form class="form-inline my-2 my-lg-0">
+			      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+			      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+			    </form>
+			  </div>
+			</nav> -->
 
 
 
@@ -130,6 +162,7 @@
 	<script src="{% static 'dashboard/assets/js/plugins/bootstrap-notify.js' %}"></script>
 	<!-- Control Center for Black Dashboard: parallax effects, scripts for the example pages etc -->
 	<script src="{% static 'dashboard/assets/js/black-dashboard.min.js' %}"></script>
+	<script src="{% static 'dashboard/assets/js/test_env.js' %}"></script>
 	<!-- Black Dashboard DEMO methods, don't include it in your project! -->
 
 	{% block js_script %}
@@ -148,54 +181,6 @@
 
 <script>
 
-function timer(){
-	var time =  ({{qpaper.duration}} + 1) * 60000;
-	var min_5 = 5*60000;
-	var alert_flag = 1;
-	var tosubmit_flag = 1;
-	var countDownDate = new Date().getTime() + time;
-	console.log(11);
-	// Update the count down every 1 second
-	var x = setInterval(function() {
-
-	// Get today's date and time
-		var now = new Date().getTime();
-
-		// Find the distance between now and the count down date
-		var distance = countDownDate - now;
-
-		// Time calculations for days, hours, minutes and seconds
-		var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-		var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-		var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-		// Display the result in the element with id="demo"
-		if(hours < 10)
-		hours = "0" + hours;
-		if(minutes < 10)
-		minutes = "0" + minutes;
-		if(seconds < 10)
-		seconds = "0" + seconds;
-		$('#timer_h').text(hours);
-		$('#timer_m').text(minutes);
-		$('#timer_s').text(seconds);
-		// If the count down is finished, write some text
-		if (distance < min_5) {
-			if(alert_flag){
-				$("#time_alert_modal").modal('toggle');
-				console.log("1aa1");
-				alert_flag = 0;
-			}
-		}
-		if (distance < 1) {
-			if(tosubmit_flag){
-				submitPaper();
-				tosubmit_flag = 0;
-			}
-		}
-	}, 1000);
-}
-timer();
 
 </script>
 </body>

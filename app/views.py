@@ -218,6 +218,7 @@ def attempt_test(request, test_id):
 @login_required(login_url = '/login')
 @csrf_exempt
 def attempt_analyze(request, attempt_id):
+    print(33)
     attempt = Attempt.objects.get(id =attempt_id)
     qpaper = attempt.paper
     params = {}
@@ -237,6 +238,7 @@ def attempt_analyze(request, attempt_id):
     params['marking_scheme'] = [int(i) for i in qpaper.marking_scheme]
     params['negative_marking_scheme'] = [-1*int(i) for i in qpaper.negative_marking_scheme]
     print("PP:", qpaper.soln_file)
+    print(44)
     return render(request, 'attempt/analyze.html', params)
 
 @login_required(login_url = '/login')
@@ -250,9 +252,11 @@ def test_profile(request, test_id):
 
 @login_required(login_url = '/login')
 def test_info(request, test_id):
+    print(11)
     paper = Paper.objects.get(id = test_id)
     att = Attempt.objects.filter(user=request.user, paper = paper)
     if(att):
+        print(22)
         return redirect('/analyze-test/{0}'.format(att[0].id))
     params = {}
     params["nav_active"] = "nav_testlist"

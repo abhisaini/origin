@@ -11,7 +11,7 @@
 
 	<div class="row">
 
-		<div class="col-md-9" >
+		<div class="col-md-8 col-xl-9" >
 			<div class=" btn-group btn-group-toggle float-right"
 			style="margin-top:-40px; margin-bottom:8px;" data-toggle="buttons">
 			 <label class="btn btn-sm btn-primary btn-simple active" id="pdf0">
@@ -32,14 +32,14 @@
 			<!-- <div id="pdf_viewer" style="height: calc(100vh - 100px);">
 			</div> -->
 		</div>
-		<div id="pdf_viewer" class="col-md-9"  style="min-height: calc(100vh - 100px)">
+		<div id="pdf_viewer" class="col-md-8 col-xl-9"  style="min-height: calc(100vh - 100px)">
 			<iframe src="{{qpaper_file_url}}" height="100%" width="100%">
 				<p>Your browser does not support iframes.</p>
 			</iframe>
 		</div>
 
 		{% if qpaper.soln_file %}
-		<div id="pdf_viewer1"  class="col-md-9"  style="display: none; min-height: calc(100vh - 100px)">
+		<div id="pdf_viewer1"  class="col-md-8 col-xl-9"  style="display: none; min-height: calc(100vh - 100px)">
 			<iframe src="{{soln_file_url}}" height="100%" width="100%">
 				<p>Your browser does not support iframes.</p>
 			</iframe>
@@ -47,7 +47,7 @@
 		{% endif %}
 
 
-		<div class="col-md-3" >
+		<div class="col-md-4 col-xl-3" >
 			<div class="card" >
 				<div class="card-header">
 						<h5 class="title">Questionwise

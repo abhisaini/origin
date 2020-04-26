@@ -25,7 +25,7 @@ SECRET_KEY = 'y=txb@za&mutm-#tv7&xmxkw(i_*y=u)e6*5tfyxi0w^&g-ev+'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "origin-jee.herokuapp.com"]
+ALLOWED_HOSTS = ["localhost", "origin-jee.herokuapp.com", "127.0.0.1"]
 
 
 # Application definition

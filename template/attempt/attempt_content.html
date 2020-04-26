@@ -41,218 +41,355 @@ input[type="radio"]:checked + label {
 
 {% block js_script %}
 <script>
-$(document).ready(function() {
-
-
-});
+// $(document).ready(function() {
+//
+//
+// });
 </script>
 
 {% endblock %}
 
 {% block script %}
 <script>
-	let count_notans = {{qpaper.q_count}},count_mark = 0, count_ans = 0, count_ansmark = 0;
-	let q_count = {{qpaper.q_count}};
-	let q_type = {{q_type|safe}};
 
-	let ans_status_array = [0]; // 0 for not answered
-	let mark_status_array = [0]; // 0 for not marked
-	for(var i = 0; i < {{qpaper.q_count}}; i++){
-		ans_status_array.push(0);
-		mark_status_array.push(0);
+let count_notans = {{qpaper.q_count}},count_mark = 0, count_ans = 0, count_ansmark = 0;
+let q_count = {{qpaper.q_count}};
+let q_type = {{q_type|safe}};
+
+let ans_status_array = [0]; // 0 for not answered
+let mark_status_array = [0]; // 0 for not marked
+
+var duration = {{qpaper.duration}};
+
+for(var i = 0; i < {{qpaper.q_count}}; i++){
+	ans_status_array.push(0);
+	mark_status_array.push(0);
+}
+
+let ques_active_obj = $("#ques_card_1");
+function switchQues(new_ques){
+	ques_active_obj.hide();
+	let ques_new_obj = $(new_ques);
+	ques_new_obj.show();
+	ques_active_obj = ques_new_obj;
+	setStorage();
+}
+
+
+let qpart_active = $("#card_qno_opt1");
+$("#1").click();
+
+function switchSection(new_section, sec_range){
+	let sec_first = Number(sec_range.split("-")[0])
+
+	qpart_active.hide(new_section);
+	let qpart_new = $(new_section);
+	qpart_new.show('slow');
+	qpart_active = qpart_new;
+	console.log(`#card_${$(this).attr('id')}`);
+	switchQues(`#ques_card_${sec_first}`);
+
+}
+
+
+function c_notans(){
+	count_notans = q_count - count_ans
+		- count_mark - count_ansmark;
+	$("#count_notans").text(count_notans);
+}
+function c_mark(c){
+	count_mark += c;
+	$("#count_mark").text(count_mark);
+	c_notans();
+}
+function c_ans(c){
+	count_ans += c;
+	$("#count_ans").text(count_ans);
+	c_notans();
+}
+function c_ansmark(c){
+	count_ansmark += c;
+	$("#count_ansmark").text(count_ansmark);
+	c_notans();
+}
+
+
+function markQues(ques_no){
+	let q_btn = $(`#q_btn${ques_no}`);
+	if(ans_status_array[ques_no] == 0){
+		q_btn.addClass("btn-info");
+		c_mark(1);
+	}
+	if(ans_status_array[ques_no] == 1){
+		q_btn.removeClass("btn-success");
+		q_btn.addClass("btn-primary");
+		c_ansmark(1);
+		c_ans(-1);
+
+	}
+	$(`#mark_${ques_no}`).hide();
+	$(`#unmark_${ques_no}`).show();
+	mark_status_array[ques_no] = 1;
+
+}
+function valueChanged(ques_no){
+	console.log(ques_no);
+	$(`#clear_${ques_no}`).show();
+
+	let q_btn = $(`#q_btn${ques_no}`);
+	$(`#clear_${ques_no}`).addClass("zoomIn")
+
+
+
+	if(mark_status_array[ques_no] == 0){
+		q_btn.addClass("btn-success");
+		c_ans((1 - ans_status_array[ques_no]));
+		console.log("ARRR", ans_status_array[ques_no]);
+
+	}
+	if(mark_status_array[ques_no] == 1){
+		q_btn.removeClass("btn-info");
+		q_btn.addClass("btn-primary");
+		c_mark(-1);
+		c_ansmark(1);
+
 	}
 
-	let ques_active_obj = $("#ques_card_1");
-	function switchQues(new_ques){
-		ques_active_obj.hide();
-		let ques_new_obj = $(new_ques);
-		ques_new_obj.show();
-		ques_active_obj = ques_new_obj;
+	ans_status_array[ques_no] = 1;
+
+}
+
+function clearQues(ques_no){
+	$(`#clear_${ques_no}`).hide(250);
+	let q_input = $(`input[name ="ques_${ques_no}"]`);
+	if(q_type[ques_no] == "MCQ")
+	q_input.prop('checked', false);
+	else if(q_type[ques_no] == "int")
+	q_input.removeAttr('value');
+
+
+
+
+
+	let q_btn = $(`#q_btn${ques_no}`);
+	if(mark_status_array[ques_no] == 0){
+		q_btn.removeClass ("btn-success");
+		c_ans(-1);
 
 	}
-
-
-	let qpart_active = $("#card_qno_opt1");
-	$("#1").click();
-
-	function switchSection(new_section, sec_range){
-		let sec_first = Number(sec_range.split("-")[0])
-
-		qpart_active.hide(new_section);
-		let qpart_new = $(new_section);
-		qpart_new.show('slow');
-		qpart_active = qpart_new;
-		console.log(`#card_${$(this).attr('id')}`);
-		switchQues(`#ques_card_${sec_first}`);
+	if(mark_status_array[ques_no] == 1){
+		q_btn.addClass("btn-info");
+		q_btn.removeClass ("btn-primary");
+		c_mark(1);
+		c_ansmark(-1);
 
 	}
+	ans_status_array[ques_no] = 0;
 
+}
+function unmarkQues(ques_no){
 
-	function c_notans(){
-		count_notans = q_count - count_ans
-			- count_mark - count_ansmark;
-		$("#count_notans").text(count_notans);
-	}
-	function c_mark(c){
-		count_mark += c;
-		$("#count_mark").text(count_mark);
-		c_notans();
-	}
-	function c_ans(c){
-		count_ans += c;
-		$("#count_ans").text(count_ans);
-		c_notans();
-	}
-	function c_ansmark(c){
-		count_ansmark += c;
-		$("#count_ansmark").text(count_ansmark);
-		c_notans();
-	}
+	let q_btn = $(`#q_btn${ques_no}`);
+	if(ans_status_array[ques_no] == 0){
+		q_btn.removeClass("btn-info");
+		c_mark(-1);
 
+	}
+	if(ans_status_array[ques_no] == 1){
+		q_btn.addClass("btn-success");
+		q_btn.removeClass("btn-primary");
+		c_ans(1);
+		c_ansmark(-1);
 
-	function markQues(ques_no){
-		let q_btn = $(`#q_btn${ques_no}`);
-		if(ans_status_array[ques_no] == 0){
-			q_btn.addClass("btn-info");
-			c_mark(1);
+	}
+	$(`#unmark_${ques_no}`).hide();
+	$(`#mark_${ques_no}`).show();
+	mark_status_array[ques_no] = 0;
+
+}
+
+function getOption(ques_no){
+	// console.log(typeof(ques_no));
+	if(q_type[ques_no] == "MCQ"){
+		if($(`input[name="ques_${ques_no}"][value="A"]`).prop("checked")){
+			return "A";
 		}
-		if(ans_status_array[ques_no] == 1){
-			q_btn.removeClass("btn-success");
-			q_btn.addClass("btn-primary");
-			c_ansmark(1);
-			c_ans(-1);
-
+		if($(`input[name="ques_${ques_no}"][value="B"]`).prop("checked")){
+			return "B";
 		}
-		$(`#mark_${ques_no}`).hide();
-		$(`#unmark_${ques_no}`).show();
-		mark_status_array[ques_no] = 1;
-
+		if($(`input[name="ques_${ques_no}"][value="C"]`).prop("checked")){
+			return "C";
+		}
+		if($(`input[name="ques_${ques_no}"][value="D"]`).prop("checked")){
+			return "D";
+		}
+		return "_"
 	}
-	function valueChanged(ques_no){
-		console.log(ques_no);
-		$(`#clear_${ques_no}`).show();
-
-		let q_btn = $(`#q_btn${ques_no}`);
-		$(`#clear_${ques_no}`).addClass("zoomIn")
-
-
-
-		if(mark_status_array[ques_no] == 0){
-			q_btn.addClass("btn-success");
-			c_ans((1 - ans_status_array[ques_no]));
-			console.log("ARRR", ans_status_array[ques_no]);
-
+	if(q_type[ques_no] == "int"){
+		if($(`input[name="ques_${ques_no}"`).val()){
+			return $(`input[name="ques_${ques_no}"`).val();
 		}
-		if(mark_status_array[ques_no] == 1){
-			q_btn.removeClass("btn-info");
-			q_btn.addClass("btn-primary");
-			c_mark(-1);
-			c_ansmark(1);
-
+		else{
+			return "_";
 		}
-
-		ans_status_array[ques_no] = 1;
-
 	}
 
-	function clearQues(ques_no){
-		$(`#clear_${ques_no}`).hide(250);
-		let q_input = $(`input[name ="ques_${ques_no}"]`);
-		if(q_type[ques_no] == "MCQ")
-		q_input.prop('checked', false);
-		else if(q_type[ques_no] == "int")
-		q_input.removeAttr('value');
-
-
-
-
-
-		let q_btn = $(`#q_btn${ques_no}`);
-		if(mark_status_array[ques_no] == 0){
-			q_btn.removeClass ("btn-success");
-			c_ans(-1);
-
-		}
-		if(mark_status_array[ques_no] == 1){
-			q_btn.addClass("btn-info");
-			q_btn.removeClass ("btn-primary");
-			c_mark(1);
-			c_ansmark(-1);
-
-		}
-		ans_status_array[ques_no] = 0;
-
+}
+function getAnswers(){
+	let answers = ["X"];
+	for(var i = 1; i <= {{qpaper.q_count}}; i++){
+		answers.push(getOption(i));
 	}
-	function unmarkQues(ques_no){
+	return answers;
+}
 
-		let q_btn = $(`#q_btn${ques_no}`);
-		if(ans_status_array[ques_no] == 0){
-			q_btn.removeClass("btn-info");
-			c_mark(-1);
+function submitPaper(){
+	let answers = getAnswers();
+	$("#exam_response").val(JSON.stringify(answers));
+	$("#exam_key_form").submit();
+	console.log(answers);
+}
 
-		}
-		if(ans_status_array[ques_no] == 1){
-			q_btn.addClass("btn-success");
-			q_btn.removeClass("btn-primary");
-			c_ans(1);
-			c_ansmark(-1);
-
-		}
-		$(`#unmark_${ques_no}`).hide();
-		$(`#mark_${ques_no}`).show();
-		mark_status_array[ques_no] = 0;
-
+function slideQues(ques_no, offset){
+	ques_no += offset;
+	if(ques_no == 0){
+		ques_no = {{qpaper.q_count}};
+	}
+	else if(ques_no == {{qpaper.q_count}}+1){
+		ques_no = 1;
 	}
 
-	function getOption(ques_no){
-		// console.log(typeof(ques_no));
-		if(q_type[ques_no] == "MCQ"){
-			if($(`input[name="ques_${ques_no}"][value="A"]`).prop("checked")){
-				return "A";
+	console.log(`#ques_card_${ques_no}`);
+	switchQues(`#ques_card_${ques_no}`);
+
+}
+
+function timer(t_duration){
+	var time =  (t_duration + 1) * 60000;
+	var min_5 = 5*60000;
+	var alert_flag = 1;
+	var tosubmit_flag = 1;
+	var countDownDate = new Date().getTime() + time;
+	console.log(11);
+	// Update the count down every 1 second
+	var x = setInterval(function() {
+
+	// Get today's date and time
+		var now = new Date().getTime();
+
+		// Find the distance between now and the count down date
+		var distance = countDownDate - now;
+		// Time calculations for days, hours, minutes and seconds
+		var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+		var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+		var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+		// duration--;
+		duration = Math.floor(distance/ 1000/60);
+		// Display the result in the element with id="demo"
+		if(hours < 10)
+		hours = "0" + hours;
+		if(minutes < 10)
+		minutes = "0" + minutes;
+		if(seconds < 10)
+		seconds = "0" + seconds;
+		$('#timer_h').text(hours);
+		$('#timer_m').text(minutes);
+		$('#timer_s').text(seconds);
+		// If the count down is finished, write some text
+		if (distance < min_5) {
+			if(alert_flag){
+				$("#time_alert_modal").modal('toggle');
+				console.log("1aa1");
+				alert_flag = 0;
 			}
-			if($(`input[name="ques_${ques_no}"][value="B"]`).prop("checked")){
-				return "B";
-			}
-			if($(`input[name="ques_${ques_no}"][value="C"]`).prop("checked")){
-				return "C";
-			}
-			if($(`input[name="ques_${ques_no}"][value="D"]`).prop("checked")){
-				return "D";
-			}
-			return "_"
 		}
-		if(q_type[ques_no] == "int"){
-			if($(`input[name="ques_${ques_no}"`).val()){
-				return $(`input[name="ques_${ques_no}"`).val();
+		if (distance < 1) {
+			if(tosubmit_flag){
+				submitPaper();
+				tosubmit_flag = 0;
 			}
-			else{
-				return "_";
+		}
+	}, 1000);
+}
+
+
+/* Storage Structure
+	{
+		answers: "",
+		status: "",
+		duration: ""
+	}
+*/
+
+
+function load_mark(ques_no){
+	let q_btn = $(`#q_btn${ques_no}`);
+	q_btn.addClass("btn-info");
+	c_mark(1);
+}
+function load_ans(ques_no){
+	let q_btn = $(`#q_btn${ques_no}`);
+	q_btn.addClass("btn-success");
+	c_ans(1);
+}
+function load_ansmark(ques_no){
+	let q_btn = $(`#q_btn${ques_no}`);
+	q_btn.addClass("btn-primary");
+	c_ansmark(1);
+}
+
+var storage_id = "{{qpaper.id}}_{{user.username}}";
+function loadStorage(){
+	if (typeof(Storage) !== "undefined") {
+		console.log("storage exits");
+		var accessed_storage = localStorage.getItem(storage_id);
+		console.log(accessed_storage);
+		if(accessed_storage){
+			accessed_storage = JSON.parse(accessed_storage);
+			ans_status_array = accessed_storage["ans_status_array"];
+			mark_status_array = accessed_storage["mark_status_array"];
+
+			for(var i = 1; i <= q_count; i++){
+				ans_tmp = accessed_storage["answers"][i];
+				$(`input[name="ques_${i}"][value="${ans_tmp}"]`).prop("checked", true);
+				if(ans_status_array[i] && mark_status_array[i])
+				load_ansmark(i);
+				if(ans_status_array[i] && !mark_status_array[i])
+				load_ans(i);
+				if(!ans_status_array[i] && mark_status_array[i])
+				load_mark(i);
 			}
+			duration = accessed_storage["duration"];
+			if(duration < 0)
+			duration = 1;
+			timer(duration);
+		}
+		else{
+			setStorage();
+			timer(duration);
 		}
 
-	}
-	function submitPaper(){
-		let answers = ["X"];
-		for(var i = 1; i <= {{qpaper.q_count}}; i++){
-			answers.push(getOption(i));
-		}
-		$("#exam_response").val(JSON.stringify(answers));
-		$("#exam_key_form").submit();
-		console.log(answers);
+	} else {
+		return ;
 	}
 
-	function slideQues(ques_no, offset){
-		ques_no += offset;
-		if(ques_no == 0){
-			ques_no = {{qpaper.q_count}};
-		}
-		else if(ques_no == {{qpaper.q_count}}+1){
-			ques_no = 1;
-		}
+}
 
-		console.log(`#ques_card_${ques_no}`);
-		switchQues(`#ques_card_${ques_no}`);
+function setStorage(){
+	if (typeof(Storage) !== "undefined") {
+		accessed_storage_obj = {
+			answers: getAnswers(),
+			duration: duration+1,
+			ans_status_array: ans_status_array,
+			mark_status_array: mark_status_array,
+		}
+		localStorage.setItem(storage_id, JSON.stringify(accessed_storage_obj));
+		console.log("set storage, duration : ", duration);
 	}
+}
+loadStorage();
+
 </script>
 
 
