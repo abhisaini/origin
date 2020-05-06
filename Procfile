@@ -1,3 +1,3 @@
-web: gunicorn Exam_Portal.wsgi:application --timeout 15
+web: gunicorn Exam_Portal.wsgi:application --timeout 150
 python manage.py collectstatic --noinput
 manage.py migrate
