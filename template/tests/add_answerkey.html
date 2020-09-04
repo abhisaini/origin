@@ -65,7 +65,7 @@
 										</div>
 									</div>
 
-									{% elif q_type|index:x == "MCR" %}
+									{% elif q_type|index:x == "MCR" or q_type|index:x == "MCP" %}								
 
 									<div class="row" id="qrow_{{x}}" data-toggle="popover" data-content="Please enter the answer.">
 										<div class="col-md-3">
@@ -180,7 +180,7 @@ input[type="checkbox"]:checked + label {
             }
 
 		}
-		if(q_type[ques_no] == "MCR"){
+		if(q_type[ques_no] == "MCR" || q_type[ques_no] == "MCP"){
 			var v = "";
 			if($(`input[name="ques_${ques_no}"][value="A"]`).prop("checked")){
 				v += "A";

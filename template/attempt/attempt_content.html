@@ -174,7 +174,7 @@ function clearQues(ques_no){
 	q_input.prop('checked', false);
 	else if(q_type[ques_no] == "int")
 	q_input.removeAttr('value');
-	else if(q_type[ques_no] == "MCR")
+	else if(q_type[ques_no] == "MCR" || q_type[ques_no] == "MCP")
 	q_input.prop('checked', false);
 
 
@@ -243,7 +243,7 @@ function getOption(ques_no){
 			return "_";
 		}
 	}
-	if(q_type[ques_no] == "MCR"){
+	if(q_type[ques_no] == "MCR" || q_type[ques_no] == "MCP"){
 			var v = "";
 			var flg = 0;
 			if($(`input[name="ques_${ques_no}"][value="A"]`).prop("checked")){
@@ -400,7 +400,7 @@ function loadStorage(){
 					$(`input[name="ques_${i}"][value="${ans_tmp}"]`).prop("checked", true);
 					
 				}
-				if(q_type[i] == "MCR"){
+				if(q_type[i] == "MCR" || q_type[i] == "MCP"){
 					for(var p = 0; p < ans_tmp.length; p++){
 						$(`input[id="que_id${i}${ans_tmp[p]}"][value="${ans_tmp[p]}"]`).prop("checked", true);
 						console.log("LALALA", `input[id="ques_${i}${ans_tmp[p]}"][value="${ans_tmp[p]}"]`);

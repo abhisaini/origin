@@ -59,7 +59,7 @@
 				</div>
 			</div>
 
-			{% elif q_type|index:x == "MCR" %}
+			{% elif q_type|index:x == "MCR" or q_type|index:x == "MCP" %}
 			<div class="col-md-12" style="text-align:center;">
 				<input onclick="valueChanged({{x}})" type="checkbox" id="que_id{{x}}A"  name="ques_{{x}}" value="A">
 				<label for="que_id{{x}}A" class="btn btn-icon btn-round"
