@@ -24,7 +24,8 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 
 Q_TYPE = {
     "M": "MCQ",
-    "I": "INTEGER"
+    "I": "INTEGER",
+    "C": "MULIPLE_CORRECT"
 }
 
 @decos.logout_required
@@ -166,19 +167,44 @@ def attempt_test(request, test_id):
         answer_key = qpaper.answer_key.split("|")
         marking_scheme = qpaper.marking_scheme
         negative_marking_scheme = qpaper.negative_marking_scheme
+        q_type = qpaper.q_type.split("|")
         marks = 0
         q_result = "0"
         for i in range(1, qpaper.q_count + 1):
-            print("XIXIXI", i, len(answer_key))
-            if exam_response[i] == "_":
-                q_result += "_"
-            elif exam_response[i] == answer_key[i]:
-                q_result += "1"
-                marks += int(marking_scheme[i])
+            # print("XIXIXI", i, len(answer_key))
+            # Check question type to check correctness
+            if q_type[i] == "MCR":
+                if exam_response[i] == "_":
+                    q_result += "_"
+                elif exam_response[i] == answer_key[i]:
+                    q_result += "1"
+                    marks += int(marking_scheme[i])
+                else:
+                    wrong_flag = 0
+                    
+                    for x in exam_response[i]:
+                        if x not in answer_key[i]:
+                            wrong_flag = 1
+                    # if wrong_flag:
+                    # Assign marks for correct and deduct for wrong 
+                    # (1 - wrong_flag) == 1 if correct
+                    marks += (1 - wrong_flag) * len(exam_response[i])
+                    marks -=  wrong_flag * int(negative_marking_scheme[i])
+                    print("MARKS FOR", i, (1 - wrong_flag) * len(exam_response[i])
+                    -1 * wrong_flag * int(negative_marking_scheme[i]))
+
+                    q_result += str(1 - wrong_flag)
             else:
-                print(exam_response[i], answer_key[i])
-                marks -= int(negative_marking_scheme[i])
-                q_result += "0"
+                if exam_response[i] == "_":
+                    q_result += "_"
+                elif exam_response[i] == answer_key[i]:
+                    q_result += "1"
+                    marks += int(marking_scheme[i])
+                else:
+                    print(exam_response[i], answer_key[i])
+                    marks -= int(negative_marking_scheme[i])
+                    q_result += "0"
+            print("MARKS AFTER", i, marks)
         attempt_new = Attempt(user = request.user,
                 paper = qpaper,
                 response = "|".join(exam_response),

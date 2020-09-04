@@ -30,6 +30,14 @@ input[type="radio"] {
 input[type="radio"]:checked + label {
 	border: solid 1.5px #e14eca;
 }
+
+input[type="checkbox"] {
+	display: none;
+}
+
+input[type="checkbox"]:checked + label {
+	border: solid 1.5px #e14eca;
+}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfobject/2.1.1/pdfobject.min.js"> </script>
 <script>
@@ -166,6 +174,8 @@ function clearQues(ques_no){
 	q_input.prop('checked', false);
 	else if(q_type[ques_no] == "int")
 	q_input.removeAttr('value');
+	else if(q_type[ques_no] == "MCR")
+	q_input.prop('checked', false);
 
 
 
@@ -233,6 +243,30 @@ function getOption(ques_no){
 			return "_";
 		}
 	}
+	if(q_type[ques_no] == "MCR"){
+			var v = "";
+			var flg = 0;
+			if($(`input[name="ques_${ques_no}"][value="A"]`).prop("checked")){
+				v += "A";
+				flg = 1;
+			}
+			if($(`input[name="ques_${ques_no}"][value="B"]`).prop("checked")){
+				v += "B";
+				flg = 1;
+			}
+			if($(`input[name="ques_${ques_no}"][value="C"]`).prop("checked")){
+				v += "C";
+				flg = 1;
+			}
+			if($(`input[name="ques_${ques_no}"][value="D"]`).prop("checked")){
+				v += "D";
+				flg = 1;
+			}
+			if(flg)
+			return v;
+			else 
+			return "_";
+		}
 
 }
 function getAnswers(){
@@ -245,6 +279,7 @@ function getAnswers(){
 
 function submitPaper(){
 	let answers = getAnswers();
+	console.log(answers);
 	$("#exam_response").val(JSON.stringify(answers));
 	$("#exam_key_form").submit();
 	console.log(answers);
@@ -351,14 +386,30 @@ function loadStorage(){
 			mark_status_array = accessed_storage["mark_status_array"];
 
 			for(var i = 1; i <= q_count; i++){
-				ans_tmp = accessed_storage["answers"][i];
-				$(`input[name="ques_${i}"][value="${ans_tmp}"]`).prop("checked", true);
+				if(q_type == "int"){
+					continue
+				}
 				if(ans_status_array[i] && mark_status_array[i])
 				load_ansmark(i);
 				if(ans_status_array[i] && !mark_status_array[i])
 				load_ans(i);
 				if(!ans_status_array[i] && mark_status_array[i])
 				load_mark(i);
+				ans_tmp = accessed_storage["answers"][i];
+				if(q_type[i] == "MCQ"){
+					$(`input[name="ques_${i}"][value="${ans_tmp}"]`).prop("checked", true);
+					
+				}
+				if(q_type[i] == "MCR"){
+					for(var p = 0; p < ans_tmp.length; p++){
+						$(`input[id="que_id${i}${ans_tmp[p]}"][value="${ans_tmp[p]}"]`).prop("checked", true);
+						console.log("LALALA", `input[id="ques_${i}${ans_tmp[p]}"][value="${ans_tmp[p]}"]`);
+					}
+					
+				}
+				if(q_type == "int"){
+					$(`input[id="que_id${i}"]`).prop("value", Number(ans_tmp));
+				}
 			}
 			duration = accessed_storage["duration"];
 			if(duration < 0)

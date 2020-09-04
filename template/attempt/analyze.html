@@ -84,7 +84,13 @@
 									<td class="text-center"> {{response|index:i}} </td>
 									<td class="text-center"> {{answer_key|index:i}} </td>
 									{% if q_result|index:i == "1" %}
-									<td class="text-center" > <span class="text-success"> {{marking_scheme|index:i}} </span> </td>
+									<!-- Calculate marks to show, full/partial
+									Automaticall full for single correct/ integer -->
+										{% if answer_key|index:i == response|index:i %}
+										<td class="text-center" > <span class="text-success"> {{marking_scheme|index:i}} </span> </td>
+										{% else %}
+										<td class="text-center" > <span class="text-success"> {{response|index:i|length}} </span> </td>
+										{% endif %}
 									{% elif q_result|index:i == "0" %}
 									<td class="text-center" style="background:var(--danger)"> {{negative_marking_scheme|index:i}} </td>
 									{% else %}

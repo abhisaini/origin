@@ -65,6 +65,38 @@
 										</div>
 									</div>
 
+									{% elif q_type|index:x == "MCR" %}
+
+									<div class="row" id="qrow_{{x}}" data-toggle="popover" data-content="Please enter the answer.">
+										<div class="col-md-3">
+											<h5 style="text-align: left; padding:11px 0;"> {{x}}. </h5>
+										</div>
+										<div class="col-md-9">
+											<input type="checkbox" id="que_id{{x}}A"  name="ques_{{x}}" value="A">
+											<label for="que_id{{x}}A" class="btn btn-icon btn-round"
+											style="margin-right: 7px;padding:5px;transition: all 0.7s; text-align:center" >
+												A
+											</label>
+											<input type="checkbox" id="que_id{{x}}B" name="ques_{{x}}" value="B">
+											<label for="que_id{{x}}B" class="btn btn-icon btn-round"
+											style="margin-right: 7px;padding:5px;transition: all 0.7s; text-align:center" >
+												B
+											</label>
+											<input type="checkbox" id="que_id{{x}}C" name="ques_{{x}}" value="C">
+											<label for="que_id{{x}}C" class="btn btn-icon btn-round"
+											style="margin-right: 7px;padding:5px;transition: all 0.7s; text-align:center" >
+												C
+											</label>
+											<input type="checkbox" id="que_id{{x}}D" name="ques_{{x}}" value="D">
+											<label for="que_id{{x}}D" class="btn btn-icon btn-round"
+											style="padding:5px;transition: all 0.7s; text-align:center" >
+												D
+											</label>
+										</div>
+
+									</div>
+
+
 									{% endif %}
 									<hr>
 
@@ -99,6 +131,15 @@ input[type="radio"] {
 }
 
 input[type="radio"]:checked + label {
+	border: solid 1.5px #e14eca;
+}
+
+
+input[type="checkbox"] {
+	display: none;
+}
+
+input[type="checkbox"]:checked + label {
 	border: solid 1.5px #e14eca;
 }
 </style>
@@ -138,7 +179,24 @@ input[type="radio"]:checked + label {
                 return "_";
             }
 
-        }
+		}
+		if(q_type[ques_no] == "MCR"){
+			var v = "";
+			if($(`input[name="ques_${ques_no}"][value="A"]`).prop("checked")){
+				v += "A";
+			}
+			if($(`input[name="ques_${ques_no}"][value="B"]`).prop("checked")){
+                v += "B";
+			}
+			if($(`input[name="ques_${ques_no}"][value="C"]`).prop("checked")){
+                v += "C";
+			}
+			if($(`input[name="ques_${ques_no}"][value="D"]`).prop("checked")){
+                v += "D";
+			}
+			
+			return v;
+		}
     }
 </script>
 {% endblock %}
