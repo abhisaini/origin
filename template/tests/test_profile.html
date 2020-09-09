@@ -82,7 +82,13 @@
 							  	</th>
 							  	<th class="text-center">
 							    	 Marks
-							  	</th>
+								</th>
+								<th class="text-center">
+									IP
+								</th>
+								<th class="text-center">
+									Time
+								 </th>
 							</tr>
 							</thead>
 		                    <tbody >
@@ -98,7 +104,13 @@
 								  	</td>
 								  	<td class="text-center">
 								    	{{ x.marks }}
+									</td>
+									<td class="text-center">
+								    	{{ x.ip_address }}
 								  	</td>
+									<td class="text-center">
+								    	{{ x.time_taken }}
+									  </td>								
 								</tr>
 								{% endfor %}
 							</tbody>
