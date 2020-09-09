@@ -281,6 +281,7 @@ function submitPaper(){
 	let answers = getAnswers();
 	console.log(answers);
 	$("#exam_response").val(JSON.stringify(answers));
+	$("#time_taken").val(JSON.stringify({{qpaper.duration}} - duration));
 	$("#exam_key_form").submit();
 	console.log(answers);
 }

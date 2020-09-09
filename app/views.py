@@ -28,6 +28,14 @@ Q_TYPE = {
     "C": "MULIPLE_CORRECT"
 }
 
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
 @decos.logout_required
 def signup(request):
     if request.method == "POST":
@@ -164,6 +172,7 @@ def attempt_test(request, test_id):
     qpaper = Paper.objects.get(id=test_id)
     if request.method == 'POST':
         exam_response = json.loads(request.POST["exam_response"])
+        time_taken = json.loads(request.POST["time_taken"])
         answer_key = qpaper.answer_key.split("|")
         marking_scheme = qpaper.marking_scheme
         negative_marking_scheme = qpaper.negative_marking_scheme
@@ -209,7 +218,9 @@ def attempt_test(request, test_id):
                 paper = qpaper,
                 response = "|".join(exam_response),
                 q_result = q_result,
-                marks = marks)
+                marks = marks,
+                ip_address = get_client_ip(request),
+                time_taken = time_taken)
         attempt_new.save()
         return redirect('/analyze-test/{0}'.format(attempt_new.id))
 

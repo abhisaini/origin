@@ -155,7 +155,6 @@ from google.oauth2 import service_account
 import json
 
 creds = json.loads(os.environ.get('GC_KEY'))
-
 GS_CREDENTIALS = service_account.Credentials.from_service_account_info(creds)
 
 

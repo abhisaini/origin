@@ -73,6 +73,8 @@ class Attempt(models.Model):
     q_result = models.CharField(max_length = 200, default = "")
     marks = models.IntegerField( default = 0)
     created_at = models.DateTimeField(default=now)
+    ip_address = models.CharField(max_length = 15, default = "")
+    time_taken = models.IntegerField( default = 0)
 
 
 @receiver(post_save, sender=User)
